@@ -1,0 +1,178 @@
+# Victorian Detective Game
+
+def start_game():
+    # Welcome message
+    print("Welcome, Detective! You've arrived at the Westfield Mansion.")
+    print("Your mission is to solve the mysterious murder of Lady Eleanor.\n")
+    
+    # Initialize variables
+    clues_found = 0  # Counter for clues found
+    game_over = False  # Control loop for the game
+    suspects = ["Butler James", "Lord Westfield", "Maid Sarah"]  # List of suspects
+    current_location = "Mansion Hall"  # Starting location
+    hidden_documents = False  # Whether hidden documents were found
+    murder_weapon_found = False  # Whether the murder weapon was found
+    handkerchief_found = False  # Whether the bloody handkerchief was found
+
+    # Game loop
+    while not game_over:
+        print(f"\nYou are currently in the {current_location}.")
+        
+        # Provide choices based on the current location
+        if current_location == "Mansion Hall":
+            print("Choices:")
+            print("1. Interrogate suspects: Butler James, Lord Westfield, or Maid Sarah.")
+            print("2. Explore the mansion: Go to the Garden or Basement.")
+            print("3. Examine the crime scene: Where Lady Eleanor was found.")
+            choice = input("Choose an action (1/2/3): ")
+
+            if choice == "1":
+                # Interrogation
+                print("\nWho do you want to interrogate?")
+                for i, suspect in enumerate(suspects, 1):
+                    print(f"{i}. {suspect}")
+
+                suspect_choice = input("Choose a suspect (1/2/3): ")
+
+                if suspect_choice == "1":
+                    print("\nYou interrogate Butler James.")
+                    if hidden_documents:
+                        print("He seems nervous and tries to deflect questions about the documents.")
+                    else:
+                        print("He claims he was cleaning and knows nothing about the murder.")
+                elif suspect_choice == "2":
+                    print("\nYou interrogate Lord Westfield.")
+                    if handkerchief_found:
+                        print("You confront him about the handkerchief and he becomes defensive.")
+                    else:
+                        print("He insists he was in his study and knew nothing of the murder.")
+                elif suspect_choice == "3":
+                    print("\nYou interrogate Maid Sarah.")
+                    if murder_weapon_found:
+                        print("She seems frightened and hints at something dark happening in the house.")
+                    else:
+                        print("She claims to have seen nothing unusual and seems helpful.")
+                else:
+                    print("Invalid choice. Please try again.")
+
+            elif choice == "2":
+                # Exploring the mansion
+                print("\nWhere would you like to go?")
+                print("1. Basement")
+                print("2. Garden")
+
+                location_choice = input("Choose a location (1/2): ")
+
+                if location_choice == "1":
+                    # Basement investigation
+                    print("\nYou descend into the basement. Dust fills the air.")
+                    print("You can:")
+                    print("1. Investigate an old family secret.")
+                    print("2. Find a secret passage.")
+                    print("3. Confront a suspect who followed you.")
+
+                    basement_choice = input("Choose an action (1/2/3): ")
+
+                    if basement_choice == "1":
+                        print("\nYou find hidden documents revealing a family feud.")
+                        hidden_documents = True
+                        clues_found += 1
+                    elif basement_choice == "2":
+                        print("\nYou discover a secret passage leading to an underground tunnel connecting to the garden.")
+                        clues_found += 1
+                    elif basement_choice == "3":
+                        print("\nYou confront Butler James, but he denies following you.")
+                    else:
+                        print("Invalid choice. Please try again.")
+                    
+                elif location_choice == "2":
+                    # Garden investigation
+                    print("\nYou step into the garden, where the air is fresh.")
+                    print("You can:")
+                    print("1. Meet a secret informant (the maid).")
+                    print("2. Follow footprints in the mud.")
+                    print("3. Find a bloody handkerchief.")
+
+                    garden_choice = input("Choose an action (1/2/3): ")
+
+                    if garden_choice == "1":
+                        print("\nThe maid reveals that someone was seen fleeing to the basement.")
+                        clues_found += 1
+                    elif garden_choice == "2":
+                        print("\nFollowing the footprints leads you to a hidden tunnel entrance.")
+                        clues_found += 1
+                    elif garden_choice == "3":
+                        print("\nYou find a bloody handkerchief tied to Lady Eleanor’s affair with a nobleman.")
+                        handkerchief_found = True
+                        clues_found += 1
+                    else:
+                        print("Invalid choice. Please try again.")
+                    
+                else:
+                    print("Invalid choice. Please try again.")
+
+            elif choice == "3":
+                # Examining the crime scene
+                print("\nYou return to the crime scene where Lady Eleanor was found.")
+                print("What would you like to do?")
+                print("1. Search for clues.")
+                print("2. Analyze the evidence.")
+
+                crime_scene_choice = input("Choose an action (1/2): ")
+
+                if crime_scene_choice == "1":
+                    print("\nYou search the area and find nothing new.")
+                elif crime_scene_choice == "2":
+                    print("\nYou analyze the scene but need more evidence to make a conclusion.")
+                else:
+                    print("Invalid choice. Please try again.")
+        
+        # Check for game-ending conditions
+        if clues_found >= 3:  # Condition to move to confrontation phase
+            print("\nYou have gathered enough clues to confront a suspect.")
+            print("Who do you accuse of the murder?")
+            
+            for i, suspect in enumerate(suspects, 1):
+                print(f"{i}. {suspect}")
+
+            accusation_choice = input("Choose a suspect (1/2/3): ")
+
+            if accusation_choice == "1":
+                print("\nYou accuse Butler James.")
+                if hidden_documents:
+                    print("He breaks down and confesses to his role in a cover-up for Lord Westfield.")
+                    print("End 1: You've uncovered a conspiracy!")
+                else:
+                    print("He denies everything, and you realize your mistake.")
+                    print("End 5: The real killer escapes.")
+                game_over = True
+                
+            elif accusation_choice == "2":
+                print("\nYou accuse Lord Westfield.")
+                if handkerchief_found:
+                    print("He reveals that he was blackmailed by Lady Eleanor.")
+                    print("End 6: You uncover a far more sinister motive.")
+                else:
+                    print("He laughs off the accusation, and you realize you were wrong.")
+                    print("End 5: The real killer escapes.")
+                game_over = True
+                
+            elif accusation_choice == "3":
+                print("\nYou accuse Maid Sarah.")
+                if murder_weapon_found:
+                    print("She confesses to being involved but insists she was protecting someone.")
+                    print("End 4: You catch a fleeing suspect.");
+                else:
+                    print("You accuse her without sufficient evidence, and she walks away.")
+                    print("End 5: The real killer escapes.")
+                game_over = True
+
+            else:
+                print("Invalid choice. Returning to investigation.")
+    
+    # End of game
+    print("Game Over. Thank you for playing!")
+
+# Start the game
+if __name__ == "__main__":
+    start_game()
